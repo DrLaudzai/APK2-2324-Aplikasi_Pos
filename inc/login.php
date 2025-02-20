@@ -2,6 +2,24 @@
 session_start();
 require_once 'functions.php';
 
+// Cek Session
+if (@$_SESSION['email']) {
+    if (@$_SESSION['level'] == "Admin") {
+        header("location:../admin/index.php");
+    } elseif (@$_SESSION['level'] == "Petugas") {
+        header("location:../petugas/index.php");
+    } elseif (@$_SESSION['level'] == "Penyewa") {
+        header("location:../penyewa/index.php");
+    } elseif (@$_SESSION['level'] == "Owner") {
+        header("location:../owner/index.php");
+    } elseif (@$_SESSION['level'] == "Karyawan") {
+        header("location:../karyawan/index.php");
+    }
+}
+
+
+// Cek Login
+
 // Jika  tombol Signin (Login) ditekan , maka akan mengirim variabel yang ada form login yaitu username (email) dan password
 
 if (isset($_POST['login'])) {
@@ -41,6 +59,14 @@ if (isset($_POST['login'])) {
             Jika dia level petugas===> petugas/index.php
             Jika dia level penyewa ===> penyewa/index.php
             */
+
+            if ($_SESSION['level'] == "Admin") {
+                header("location:../admin/index.php");
+            } elseif ($_SESSION['level'] == "Petugas") {
+                header("location:../petugas/index.php");
+            } elseif ($_SESSION['level'] == "Penyewa") {
+                header("location:../penyewa/index.php");
+            }
             die();
         } else {
             echo '<script language="javascript">
@@ -165,6 +191,22 @@ License: You must have a valid license purchased only from themeforest(the above
 
                                             <label for="InputPassword" class="">Password</label>
                                             <input type="password" id="inputPassword" class="form-control mb-4" name="password" placeholder="Password" required>
+
+                                            <label for="inputTypeUser" class="">Type User</label><br>
+                                            <select name="type_user" onchange="tipeuser(this.value);" id="inputTypeUser" class="form-control">
+                                                <option value="">Select Type User</option>
+                                                <option value="1">Admin</option>
+                                                <option value="2">Petugas</option>
+                                                <option value="3">Owner</option>
+                                                <option value="4">Penyewa</option>
+                                                <option value="5">Karyawan</option>
+                                            </select>
+                                            <div id="X_branch" style="display: none;" ;>
+                                                <label for="ddBranch" class="">Cabang Apartement</label>
+                                                <option value="">Pilih Cabang</option>
+                                                <option value="1">Cabang 1</option>
+                                            </div>
+
                                             <button type="submit" class="btn btn-outline-danger btn-block mt-2" name="login">Login</button>
                                             <a href="register.php" class="btn btn-outline-danger btn-block"><i
                                                     class="feather icon-user"></i> Register</a>
